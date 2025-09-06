@@ -21,4 +21,13 @@ def apptest(request):
   }
   return HttpResponse(template.render(context,request))
 
+def first(request):
+  template = loader.get_template('apwrFirst.html')
+  # dblist = Item.objects.all()[0]
+  #template = loader.get_template('apwrMain.html')
+  # context = {
+  #  'dblist':dblist,
+  # }
+  return HttpResponse(template.render())
+
 
