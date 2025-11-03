@@ -10,10 +10,15 @@
 
 from django.http import HttpResponse
 from django.template import loader
+
+# from . import itemsmng
 from .models import Item
+from .itemsmng import charger
+# import itemsmng
 
 def apptest(request):
   # template = loader.get_template('apwrFirst.html')
+  item2save = charger()
   dblist = Item.objects.all()[0]
   template = loader.get_template('apwrMain.html')
   context = {
