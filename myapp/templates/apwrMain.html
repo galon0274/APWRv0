@@ -13,6 +13,13 @@
 <p>This is Main Page</p>
 <p>Go To <a href="/first">First Page</a></p>
 <p>{{ dblist.firstname }} {{ dblist.lastname }} {{ dblist.tech }}</p>
+<img src="{% static 'myapp/img/abb1.jpg' %}">
+{{ pList|json_script:"debug-data" }}
+<br>
 
+{{ pList }}
+
+
+<script src="{% static 'myapp/js/mainjs.js' %}"></script>
 </body>
 </html>

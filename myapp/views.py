@@ -18,11 +18,17 @@ from .itemsmng import charger
 
 def apptest(request):
   # template = loader.get_template('apwrFirst.html')
-  item2save = charger()
-  dblist = Item.objects.all()[0]
+  pList = []
+  item2add = charger()
+  item2add.name = 'charger 1'
+  pList.append(item2add.__dict__)
+  item2add = charger()
+  item2add.name = 'charger 2'
+  pList.append(item2add.__dict__)
+  #dblist = Item.objects.all()[0]
   template = loader.get_template('apwrMain.html')
   context = {
-    'dblist':dblist,
+    'pList':pList,
   }
   return HttpResponse(template.render(context,request))
 
