@@ -1,5 +1,110 @@
 console.log('Debug Start');
 
+// --- CONFIGURATION AND INITIAL SETUP ---
+
+// 1. Retrieve the CSRF Token from the template
+const csrfTokenElement = document.getElementById('csrf-token');
+const CSRF_TOKEN = csrfTokenElement ? JSON.parse(csrfTokenElement.textContent) : null;
+const API_URL = '/api/receive-text/'; // Define the URL for clarity
+
+// 2. Get DOM Elements
+const inputElement = document.getElementById('my-text-input');
+const sendButton = document.getElementById('send-data-button');
+const changeButton = document.getElementById('change-pic-button');
+
+// --- FETCH FUNCTION ---
+
+async function sendText(textData) {
+    if (!CSRF_TOKEN) {
+        console.error("CSRF token is missing. Aborting request.");
+        return;
+    }
+
+    // Structure the data as an object to send JSON
+    const dataToSend = {
+        input_text: textData
+    };
+
+    try {
+        const response = await fetch(API_URL, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': CSRF_TOKEN
+            },
+            body: JSON.stringify(dataToSend)
+        });
+
+        if (!response.ok) {
+            const errorData = await response.json();
+            throw new Error(`Server Error (${response.status}): ${errorData.message}`);
+        }
+
+        const responseData = await response.json();
+        console.log("SUCCESS. Server acknowledged with message:", responseData.message);
+
+    } catch (error) {
+        console.error("Fetch request failed:", error.message);
+    }
+}
+
+async function changePic() {
+    if (!CSRF_TOKEN) {
+        console.error("CSRF token is missing. Aborting request.");
+        return;
+    }
+
+    console.log('change picture command received');
+
+    const imageElement = document.getElementById('testpic');
+    const newImageUrl = '/static/myapp/img/evImg.jpeg';
+
+    if (imageElement) {
+        // const newImageUrl = imageElement.getAttribute('data-new-src');
+        imageElement.src = newImageUrl;
+    }
+
+
+}
+
+// --- EVENT LISTENER ---
+
+// Add a listener to the button
+if (sendButton) {
+    sendButton.addEventListener('click', () => {
+        // Get the current value from the input field
+        const inputValue = inputElement.value;
+
+        // Check if the input is empty
+        if (inputValue.trim() === "") {
+            alert("Please enter some text before sending.");
+            return;
+        }
+
+        console.log(`Sending: "${inputValue}"`);
+        // Call the fetch function with the text
+        sendText(inputValue);
+    });
+}
+
+// Add a listener to the change button
+if (changeButton) {
+    changeButton.addEventListener('click', () => {
+        // Get the current value from the input field
+        //const inputValue = inputElement.value;
+
+        // Check if the input is empty
+        //if (inputValue.trim() === "") {
+           // alert("Please enter some text before sending.");
+           // return;
+        //}
+
+        console.log(`change pic`);
+        // Call the  function to change the picture
+        changePic();
+    });
+}
+
 // 1. Get the script element using the ID
 const scriptElement = document.getElementById('debug-data');
 

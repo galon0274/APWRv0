@@ -7,17 +7,31 @@
     <link rel="stylesheet" href="{% static 'myapp/css/fstyle.css' %}">
 </head>
 <body>
+{% load static %}
+{{ csrf_token|stringformat:"s"|json_script:"csrf-token" }}
 <h1 id="idtest">Hello A - POWER!</h1>
 <p>Welcome to my first Django project!</p>
 <p>version 2 trial setup</p>
 <p>This is Main Page</p>
 <p>Go To <a href="/first">First Page</a></p>
 <p>{{ dblist.firstname }} {{ dblist.lastname }} {{ dblist.tech }}</p>
-<img src="{% static 'myapp/img/abb1.jpg' %}">
+<img id="testpic" src="{% static 'myapp/img/abb1.jpg' %}">
 {{ pList|json_script:"debug-data" }}
 <br>
 
 {{ pList }}
+
+
+
+<div class="input-section">
+    <label for="my-text-input">Enter Data:</label>
+    <input type="text" id="my-text-input" placeholder="Type something here">
+
+    <button id="send-data-button">Send to Server</button>
+    <br>
+    <br>
+    <button id="change-pic-button">Change Picture</button>
+</div>
 
 
 <script src="{% static 'myapp/js/mainjs.js' %}"></script>
